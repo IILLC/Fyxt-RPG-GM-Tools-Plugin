@@ -1,0 +1,98 @@
+/**
+ * All of the CSS for your public-facing functionality should be
+ * included in this file.
+ */
+
+.fyxt-gm-tools-wrapper {
+  display: flex;
+	flex-wrap: wrap;
+}
+.fyxt-gm-tools-wrapper > div {
+  padding: .3em;
+  border-radius: 3px;
+  flex-shrink: 1;
+	
+}
+
+.fyxt-gm-tools-form-label {
+  vertical-align: middle;
+  text-align: left;
+  font-variant:small-caps;
+  color: white;
+  background-color: black;
+  font-size: 14px;
+  border: 0px;
+}
+
+.fyxt-gm-tools-help-text {
+	color: #9f9f9f ;
+	text-align: right;
+}
+
+td#fyxt-cs-label, .fyxt-cs-label {
+  vertical-align: middle;
+  text-align: right;
+  font-variant:small-caps;
+  color: white;
+  background: black !important;
+  font-size: 14px;
+  border: 0px;
+  padding: 0px 3px 0px 3px;
+}
+
+td#fyxt-data-info, .fyxt-data-info {
+  font-size: 1em;
+  font-weight: 900;
+  font-stretch:wider;
+  text-align: center;
+  color: white;
+  padding: 0px 3px 0px 3px;
+  font-variant: normal;
+  background-color: #000000 !important;
+  border: thin #212121;
+}
+
+.fyxt-skill-listing {
+	font-size: 1em;
+  font-weight: normal;
+  font-stretch: normal;
+  text-align: left;
+	vertical-align: middle;
+  color: white;
+  padding: 0px 3px 0px 3px;
+  font-variant: normal;
+  background-color: #000000 !important;
+}
+
+.powerCont{
+	overflow: auto;
+	margin-bottom: 15px;
+	color:#CCC;
+}
+
+.npower {
+	border:medium solid #000 !important;
+	background: #FFF;
+	font-size: 1em;
+	font-weight: normal;
+	align: top;
+	color: black;
+	padding: 5px;
+	vertical-align:top;
+	border-radius: 10px;
+	
+	-moz-box-shadow:inset 5px 5px 10px #000000;
+-webkit-box-shadow:inset 5px 5px 10px #000000;
+box-shadow:inset 5px 5px 10px #000000;
+
+	overflow: auto;
+}
+
+#g-btn {
+	float:left;	
+	padding: 2px;
+}
+#b-btn {
+	float:right;
+	padding: 2px 5px 2px 5px;	
+}
