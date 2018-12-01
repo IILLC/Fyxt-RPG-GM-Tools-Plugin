@@ -54,12 +54,10 @@ class Fyxt_Gm_Tools_Public_Lists {
 
 	}
 	
-	//////////////adding custom class code here
-	
-
+	//////////////add custom class code here
 	
 	//gets the users list of campaigns
-	public function fyxt_get_users_campaigns ($fyxt_account_id){
+	public function fyxt_get_users_campaigns ( $fyxt_account_id ){
 		global $wpdb;
 		$sql="SELECT
 		  fyxt_campaigns.idfyxt_campaigns,
@@ -77,34 +75,28 @@ class Fyxt_Gm_Tools_Public_Lists {
 		  fyxt_campaigns.creator_id = $fyxt_account_id
 		ORDER BY
 		  fyxt_campaigns.updated DESC";
-		$result= $wpdb->get_results("$sql");
+		$result= $wpdb->get_results( "$sql" );
 		return $result;
 	}
-	
-	
 } 
 
-function fyxt_get_account_awarded($fyxt_account_id, $content_type) {
-	global $wpdb;
-	$sql = "
-	SELECT
-	  fyxt_user_account_data.fyxt_user_account_notes,
-	  fyxt_user_account_data.fyxt_user_account_option_value,
-	  fyxt_user_account_limits_list.fyxt_account_options_name
-	FROM
-	  fyxt_user_account_data
-	  INNER JOIN fyxt_user_account_limits_list ON fyxt_user_account_limits_list.idfyxt_account_options_list =
-		fyxt_user_account_data.fyxt_user_account_option
-	WHERE
-	  fyxt_user_account_data.fyxt_user_account_id = $fyxt_account_id AND
-	  fyxt_user_account_data.fyxt_user_account_option = $content_type";
-	$results = $wpdb->get_results($sql);
-	
-	return $results;
-	
-}
+	function fyxt_get_account_awarded( $fyxt_account_id, $content_type ) {
+		global $wpdb;
+		$sql = "
+		SELECT
+		  fyxt_user_account_data.fyxt_user_account_notes,
+		  fyxt_user_account_data.fyxt_user_account_option_value,
+		  fyxt_user_account_limits_list.fyxt_account_options_name
+		FROM
+		  fyxt_user_account_data
+		  INNER JOIN fyxt_user_account_limits_list ON fyxt_user_account_limits_list.idfyxt_account_options_list =
+			fyxt_user_account_data.fyxt_user_account_option
+		WHERE
+		  fyxt_user_account_data.fyxt_user_account_id = $fyxt_account_id AND
+		  fyxt_user_account_data.fyxt_user_account_option = $content_type";
+		$results = $wpdb->get_results( $sql );
+
+		return $results;
+	}
 	
 ?>
-
-
-
