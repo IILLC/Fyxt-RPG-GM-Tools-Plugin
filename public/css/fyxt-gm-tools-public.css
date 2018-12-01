@@ -7,11 +7,11 @@
   display: flex;
 	flex-wrap: wrap;
 }
+
 .fyxt-gm-tools-wrapper > div {
   padding: .3em;
   border-radius: 3px;
   flex-shrink: 1;
-	
 }
 
 .fyxt-gm-tools-form-label {
@@ -80,11 +80,9 @@ td#fyxt-data-info, .fyxt-data-info {
 	padding: 5px;
 	vertical-align:top;
 	border-radius: 10px;
-	
 	-moz-box-shadow:inset 5px 5px 10px #000000;
--webkit-box-shadow:inset 5px 5px 10px #000000;
-box-shadow:inset 5px 5px 10px #000000;
-
+	-webkit-box-shadow:inset 5px 5px 10px #000000;
+	box-shadow:inset 5px 5px 10px #000000;
 	overflow: auto;
 }
 
@@ -92,6 +90,7 @@ box-shadow:inset 5px 5px 10px #000000;
 	float:left;	
 	padding: 2px;
 }
+
 #b-btn {
 	float:right;
 	padding: 2px 5px 2px 5px;	
