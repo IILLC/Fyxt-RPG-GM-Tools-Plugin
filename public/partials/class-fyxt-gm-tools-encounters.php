@@ -2,8 +2,8 @@
 
 /**
  * The public-facing functionality of the plugin. 
- 	This holds the functions to create Encounter Generator, Search, etc. 
-	All functions that are ENCOUNTER specific go here.
+ * This holds the functions to create Encounter Generator, Search, etc. 
+ * All functions that are ENCOUNTER specific go here.
  *
  * @link       http://www.imageinnovationsllc.com/
  * @since      1.0.0
@@ -75,7 +75,6 @@ class Fyxt_Gm_Tools_Encounters {
 		 * class.
 		 */
 
-		//wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/fyxt-gm-tools-public.css', array(), $this->version, 'all' );
 		wp_enqueue_style( 'https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css', array(), $this->version, 'all' );
 
 	}
@@ -100,7 +99,6 @@ class Fyxt_Gm_Tools_Encounters {
 		 */
 
 		//wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . '/js/fyxt-gm-tools-encounters.js', array( 'jquery' ), $this->version, false );
-		//wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'public/js/fyxt-gm-tools-encounters.js', array( 'jquery' ), $this->version, false );
 		
 	}
 	
@@ -122,7 +120,7 @@ class Fyxt_Gm_Tools_Encounters {
 		  fyxt_enc_diff_list
 		ORDER BY
 		  fyxt_enc_diff_list.idfyxt_enc_diff_list";
-		$result= $wpdb->get_results("$sql");
+		$result= $wpdb->get_results( "$sql" );
 		return $result;
 	}
 
@@ -138,7 +136,7 @@ class Fyxt_Gm_Tools_Encounters {
 		  fyxt_enc_type_list
 		ORDER BY
 		  fyxt_enc_type_list.idfyxt_enc_type_list";
-		$result= $wpdb->get_results("$sql");
+		$result= $wpdb->get_results( "$sql" );
 		return $result;
 	}
 	
@@ -153,13 +151,12 @@ class Fyxt_Gm_Tools_Encounters {
 			  fyxt_enc_tt_round_difficulty_list
 			ORDER BY
 			  fyxt_enc_tt_round_difficulty_list.idfyxt_enc_tt_round_difficulty_list";
-		$results = $wpdb->get_results($sql);
+		$results = $wpdb->get_results( $sql );
 		return $results;
 	}
 	
 	//gets the encounter information
-	//gets the encounter list of the user
-	private function fyxt_get_encounter_data($encounter_id = 0){
+	private function fyxt_get_encounter_data( $encounter_id = 0 ){
 		global $wpdb;
 		$sql="SELECT
 		  fyxt_encounters.idfyxt_encounter,
@@ -176,11 +173,11 @@ class Fyxt_Gm_Tools_Encounters {
 		  fyxt_encounters
 		WHERE
 		  fyxt_encounters.idfyxt_encounter = $encounter_id";
-		$result= $wpdb->get_results("$sql");
+		$result= $wpdb->get_results( "$sql" );
 		return $result;
 	}
 	
-	private function fyxt_get_encounter_round_data($encounter_id){
+	private function fyxt_get_encounter_round_data( $encounter_id ){
 		global $wpdb;
 		$sql="
 		SELECT
@@ -198,31 +195,27 @@ class Fyxt_Gm_Tools_Encounters {
 		  fyxt_enc_tt_round_id_association.enc_id = $encounter_id
 		ORDER BY
 		  fyxt_enc_tt_round_id_association.round_order";
-		$result= $wpdb->get_results("$sql");
+		$result= $wpdb->get_results( "$sql" );
 		return $result;
 	}
 	
 	/////////////////// encounter generator ////////////////////	
-	public function fyxt_encounter_creator($encounter_id = null){
+	public function fyxt_encounter_creator( $encounter_id = null ){
 		global $current_user;
 		global $wpdb;
 		wp_get_current_user(); 
-		$fyxt_account_id = intval($current_user->ID);
-		if ($fyxt_account_id > 0) {
-			$debug = debug($fyxt_account_id);
-			get_userdata($fyxt_account_id);
+		$fyxt_account_id = intval( $current_user->ID );
+		if ( $fyxt_account_id > 0 ) {
+			$debug = debug( $fyxt_account_id );
+			get_userdata( $fyxt_account_id );
 			$fyxt_display_name = $current_user->display_name;
-			//$premium_subscriber = fyxt_check_premium_subscription();
-			$supermoderator= fyxt_isSuperMod($fyxt_account_id);
+			$supermoderator= fyxt_isSuperMod( $fyxt_account_id );
 			$encounter_id = $_GET['encID'];
 		} else {
 			$debug = 0;
 			$fyxt_display_name = 'Fyxt RPG Guest';
 			$subscriber = 0;
 		}
-		
-		//for testing only
-		//$encounter_id = 13;
 		
 		if ($encounter_id > 0){
 			//load encounter
@@ -231,11 +224,11 @@ class Fyxt_Gm_Tools_Encounters {
 			$is_new_encounter = 0;
 			
 			//load encounter data
-			$encounter_data = Fyxt_Gm_Tools_Encounters::fyxt_get_encounter_data($encounter_id);
+			$encounter_data = Fyxt_Gm_Tools_Encounters::fyxt_get_encounter_data( $encounter_id );
 			
 			//if encounter is TT - load TT Round data
-			if ($encounter_data[0]->enc_type == 2){
-				$turn_time_round_data = Fyxt_Gm_Tools_Encounters::fyxt_get_encounter_round_data($encounter_id);
+			if ( $encounter_data[0]->enc_type == 2 ){
+				$turn_time_round_data = Fyxt_Gm_Tools_Encounters::fyxt_get_encounter_round_data( $encounter_id );
 			}
 				
 			
@@ -252,7 +245,7 @@ class Fyxt_Gm_Tools_Encounters {
 		}
 		
 		$tt_round_difficulty = Fyxt_Gm_Tools_Encounters::fyxt_tt_round_difficulty();
-		if ($fyxt_account_id > 0){
+		if ( $fyxt_account_id > 0 ){
 		
 			ob_start();
 						
@@ -260,7 +253,7 @@ class Fyxt_Gm_Tools_Encounters {
 
 <button name="btnHToggle" id="btnHToggle" class="btn btn-info">Toggle Help Tips</button> 
 
-<?php if (!empty($encounter_id)) { ?>
+<?php if ( !empty( $encounter_id ) ) { ?>
 		<form action="">
 			<input type="submit" value="Create New Encounter" />
 		</form>
@@ -273,9 +266,9 @@ class Fyxt_Gm_Tools_Encounters {
 
 			<div id="first_block" class="container-fluid char_stat_block whtTxt">
 				
-				<?php echo fyxt_create_account_content_display ($fyxt_account_id, 47) //47 for Encounters ?>
+				<?php echo fyxt_create_account_content_display( $fyxt_account_id, 47 ) //47 for Encounters ?>
 				
-				<?php echo Fyxt_Gm_Tools_Public::fyxt_bootstrap_alert (
+				<?php echo Fyxt_Gm_Tools_Public::fyxt_bootstrap_alert(
 						"info", 
 						"Step 1: Encounter Vital Details", "Enter the vital details of this encounter. What level characters does it target? How many? What is the difficulty and type of Encounter? <em><strong>Optional:</strong> Attach the Encounter to a custom Adventure you have already created.</em> ", 
 						$class = "help_tip"
@@ -293,9 +286,9 @@ class Fyxt_Gm_Tools_Encounters {
 						<select name="enc_adv" id="enc_adv" autocomplete="off" style="max-width: 270px;" >
 					  <option value="">No</option>
 					  <?php
-						$user_adventure_list = Fyxt_Gm_Tools_Adventures::fyxt_get_users_adventures ($fyxt_account_id);
-						  foreach($user_adventure_list as $list){
-							echo '<option value="'.$list->idfyxt_adventure.'"'.(($npcArch == $list->idfyxt_adventure) ? ' selected="selected">' : '>' ).$list->adv_name.'</option>'; 
+						$user_adventure_list = Fyxt_Gm_Tools_Adventures::fyxt_get_users_adventures( $fyxt_account_id );
+						  foreach( $user_adventure_list as $list ){
+							echo '<option value="'.$list->idfyxt_adventure.'"'.( ( $npcArch == $list->idfyxt_adventure ) ? ' selected="selected">' : '>' ).$list->adv_name.'</option>'; 
 						  }
 					  ?>
 					  </select>
@@ -311,8 +304,8 @@ class Fyxt_Gm_Tools_Encounters {
 					  <option value="">Select...</option>
 					  <?php
 						$encounter_difficulty_list = Fyxt_Gm_Tools_Encounters::fyxt_get_encounter_difficulty_list();
-						  foreach($encounter_difficulty_list as $list){
-							echo '<option value="'.$list->idfyxt_enc_diff_list.'"'.(($encounter_data[0]->enc_difficulty == $list->idfyxt_enc_diff_list) ? ' selected="selected">' : '>' ).$list->diff_name.'</option>'; 
+						  foreach( $encounter_difficulty_list as $list ){
+							echo '<option value="'.$list->idfyxt_enc_diff_list.'"'.( ( $encounter_data[0]->enc_difficulty == $list->idfyxt_enc_diff_list ) ? ' selected="selected">' : '>' ).$list->diff_name.'</option>'; 
 						  }
 					  ?>
 						  
@@ -325,8 +318,8 @@ class Fyxt_Gm_Tools_Encounters {
 							<option value="">Select...</option>
 					  <?php
 						$encounter_type_list = Fyxt_Gm_Tools_Encounters::fyxt_get_encounter_type_list();
-						  foreach($encounter_type_list as $list){
-							echo '<option value="'.$list->idfyxt_enc_type_list.'"'.(($encounter_data[0]->enc_type == $list->idfyxt_enc_type_list) ? ' selected="selected">' : '>' ).$list->enc_name.'</option>'; 
+						  foreach( $encounter_type_list as $list ){
+							echo '<option value="'.$list->idfyxt_enc_type_list.'"'.( ( $encounter_data[0]->enc_type == $list->idfyxt_enc_type_list ) ? ' selected="selected">' : '>' ).$list->enc_name.'</option>'; 
 						  }
 
 					  ?>
@@ -338,7 +331,7 @@ class Fyxt_Gm_Tools_Encounters {
 					  <option value="">Select...</option>
 			<?php
 					for($i = 1; $i <= 20; $i++){
-						echo '<option value="'.$i.'"'.(($encounter_data[0]->enc_level == $i) ? ' selected="selected">' : '>' ).$i.'</option>'; 
+						echo '<option value="'.$i.'"'.( ( $encounter_data[0]->enc_level == $i ) ? ' selected="selected">' : '>' ).$i.'</option>'; 
 					}
 			?>
 					  </select>
@@ -348,8 +341,8 @@ class Fyxt_Gm_Tools_Encounters {
 					  <option value="">Select...</option>
 					  <option value="1">1 Player</option>
 			<?php
-					for($i = 2; $i <= 10; $i++){
-						echo '<option value="'.$i.'"'.(($encounter_data[0]->enc_players == $i) ? ' selected="selected">' : '>' ).$i.' Players</option>'; 
+					for( $i = 2; $i <= 10; $i++ ){
+						echo '<option value="'.$i.'"'.( ( $encounter_data[0]->enc_players == $i ) ? ' selected="selected">' : '>' ).$i.' Players</option>'; 
 					}
 			?>
 					  </select>
@@ -359,7 +352,7 @@ class Fyxt_Gm_Tools_Encounters {
 				<div id="encounter_options_notes" name="encounter_options_notes" ></div>
 				
 <?php 			//summary form section
-				echo Fyxt_Gm_Tools_Public::fyxt_bootstrap_alert (
+				echo Fyxt_Gm_Tools_Public::fyxt_bootstrap_alert(
 						"info", 
 						"Step 2: Encounter Summary", 
 						"Enter an overall summary of this encounter. This is dispayed in the Encount Search. Give basic information on setup, tactics, difficulties, or tidbits that make this encounter interesting.", 
@@ -388,12 +381,13 @@ class Fyxt_Gm_Tools_Encounters {
 			
 				echo '<div class="fyxt-gm-tools-form-label"><span title="Enter the Encounter Setup and Details here. What the GM should do to lead into this encounter.">Encounter Setup and Details</span> <br /></div>';
 			
-				$editorSettings = array (	'media_buttons' => false,
+				$editorSettings = array (	
+							'media_buttons' => false,
 							'resize' => false,
 							'wp_autoresize_on' => true,
 						 	'textarea_rows' => 10
 							);	
-				wp_editor( stripslashes($encounter_data[0]->enc_setup), 'encounter_summary_content', $editorSettings  );
+				wp_editor( stripslashes($encounter_data[0]->enc_setup ), 'encounter_summary_content', $editorSettings  );
 ?>
 				<div class="fyxt-gm-tools-help-text"><span id="encounter_setup_counter" name="encounter_setup_counter" title="Check character count by making a change on the Text tab.">Character Limit: 5000</span></div>
 <?php
@@ -421,8 +415,6 @@ class Fyxt_Gm_Tools_Encounters {
 				///// this is the optional sections for Turn Time and Battle Time Encounters
 				?>
 				
-				 
-				
 					<div class="fyxt-gm-tools-form-label">Turn Time Round Actions</h2></div>At least one Turn Time Round action must be added to the Encounter. 
 <?php
 			$ttRoundActionSQL = "
@@ -445,17 +437,17 @@ class Fyxt_Gm_Tools_Encounters {
 				WHERE
 				  fyxt_enc_tt_round_id_association.enc_id = $encounter_id
 				ORDER BY
-				  fyxt_enc_tt_round_id_association.`order`";
-			$ttRoundResults = $wpdb->get_results("$ttRoundActionSQL");
+				  fyxt_enc_tt_round_id_association.`order`"; 
+			$ttRoundResults = $wpdb->get_results( "$ttRoundActionSQL" );
 ?>
 				<input type="hidden" name="hdn-enc-id" value="<?php echo $encounter_id ?>">
 				<input type="hidden" id="hdn-total-enc-rounds" value="<?php echo count($ttRoundResults) ?>">
 				
 <?php				
-			if (!empty($ttRoundResults)) {
+			if ( !empty( $ttRoundResults ) ) {
 				$i = 1;
 				
-				foreach ($ttRoundResults as $ra){
+				foreach ( $ttRoundResults as $ra ){
 ?>				
 					<div name="tt-action-container" id="action-container-<?php echo $i ?>" class="npower">
 						<input type="hidden" name="hdn-round-id" value="<?php echo $ra->idfyxt_enc_tt_round_id_association ?>">
@@ -468,13 +460,13 @@ class Fyxt_Gm_Tools_Encounters {
 						</dl>
   						<ul>
 <?php 
-					if (!empty($ra->difficulty)){
+					if ( !empty( $ra->difficulty ) ){
 						
-						if ($ra->difficulty == 5) {
+						if ( $ra->difficulty == 5 ) {
 							$challenge = "Easy";
-						} elseif ($ra->difficulty == 15) {
+						} elseif ( $ra->difficulty == 15 ) {
 							$challenge = "Moderate";
-						} elseif ($ra->difficulty == 25) {
+						} elseif ( $ra->difficulty == 25 ) {
 							$challenge = "Hard";
 						}
 						$dice_check = $ra->difficulty + $encounter_data[0]->enc_level;
@@ -501,7 +493,7 @@ class Fyxt_Gm_Tools_Encounters {
 						<button name="btn-up-arrow" style="display: none;"><i class="fas fa-arrow-up"></i></button>
 						<button name="btn-down-arrow"><i class="fas fa-arrow-down"></i></button>
 <?php 
-					} elseif ($i == count($ttRoundResults)) {
+					} elseif ( $i == count( $ttRoundResults ) ) {
 ?>
 						<button name="btn-up-arrow"><i class="fas fa-arrow-up"></i></button>
 						<button name="btn-down-arrow" style="display: none;"><i class="fas fa-arrow-down"></i></button>
@@ -515,13 +507,15 @@ class Fyxt_Gm_Tools_Encounters {
 ?>					
 						<select name="slct-round-difficulty" id="slct-round-difficulty" title="Change the roll Difficulty for this round.">
 <?php 
-						foreach ($tt_round_difficulty as $td){
-							echo '<option value="'.$td->dice_modifier.'"'.(($ra->difficulty == $td->dice_modifier) ? ' selected="selected">' : '>' ) .$td->difficulty_name.'</option>'; 
+						foreach ( $tt_round_difficulty as $td ){
+							echo '<option value="'.$td->dice_modifier.'"'.( ( $ra->difficulty == $td->dice_modifier ) ? ' selected="selected">' : '>' ) .$td->difficulty_name.'</option>'; 
 						}
 ?>
 					  	</select>
 						<button name="btn-edit-details" title="Click this button to edit the specific details of this round of actions." value="0" >Edit Details</button>
-						<textarea name="ta-round-details" placeholder="Fill in with the details of this specific round for the Encounter." style="display: none;"><?php if (!empty($ra->details)){ echo $ra->details; } ?></textarea>
+						<textarea name="ta-round-details" placeholder="Fill in with the details of this specific round for the Encounter." style="display: none;">
+<?php 
+							if ( !empty( $ra->details ) ){ echo $ra->details; } ?></textarea>
 						</div>
 						
 						<div id="b-btn" name="b-btn">
@@ -552,9 +546,9 @@ class Fyxt_Gm_Tools_Encounters {
 									WHERE
 									  fyxt_enc_tt_round_list.creator_id = 1 OR
 									  fyxt_enc_tt_round_list.web_include = 1";
-								$actionResults = $wpdb->get_results("$actionsSQL");
+								$actionResults = $wpdb->get_results( "$actionsSQL" );
 								
-								foreach ($actionResults as $ar){
+								foreach ( $actionResults as $ar ){
 									echo '<option value="'.$ar->idfyxt_enc_tt_rounds.'" >'.$ar->fyxt_enc_tt_name.'</option>'; 
 								}
 						?>
@@ -562,13 +556,12 @@ class Fyxt_Gm_Tools_Encounters {
 						
 						<select name="slct-round-difficulty" id="slct-round-difficulty" title="Change the Difficulty of this Round">
 <?php 
-						foreach ($tt_round_difficulty as $td){
+						foreach ( $tt_round_difficulty as $td ){
 							echo '<option value="'.$td->dice_modifier.'" >'.$td->difficulty_name.'</option>'; 
 						}
 ?>
 					  	</select>
 
-						
 								<button name="btnAddExistingAction" id="btnAddExistingAction"><i class="fas fa-plus"></i></button>
 								
 							</div>
@@ -589,8 +582,8 @@ class Fyxt_Gm_Tools_Encounters {
 					  <option value="">Select...</option>
 <?php
 			$skill_list = Fyxt_Gm_Tools_Public::fyxt_skill_list();
-			foreach ($skill_list as $sl){
-				echo '<option value="'.$sl->idfyxt_skill_list.'"'.(($skill_list[0]->enc_difficulty == $sl->idfyxt_skill_list) ? ' selected="selected">' : '>' ).$sl->fyxt_skill_name.'</option>'; 
+			foreach ( $skill_list as $sl ){
+				echo '<option value="'.$sl->idfyxt_skill_list.'"'.( ( $skill_list[0]->enc_difficulty == $sl->idfyxt_skill_list ) ? ' selected="selected">' : '>' ).$sl->fyxt_skill_name.'</option>'; 
 			}
 ?>
 					  </select>
@@ -600,8 +593,8 @@ class Fyxt_Gm_Tools_Encounters {
 					  <option value="">Select...</option>
 <?php
 			$skill_list = Fyxt_Gm_Tools_Public::fyxt_skill_list();
-			foreach ($skill_list as $sl){
-				echo '<option value="'.$sl->idfyxt_skill_list.'"'.(($skill_list[0]->enc_difficulty == $sl->idfyxt_skill_list) ? ' selected="selected">' : '>' ).$sl->fyxt_skill_name.'</option>'; 
+			foreach ( $skill_list as $sl ){
+				echo '<option value="'.$sl->idfyxt_skill_list.'"'.( ( $skill_list[0]->enc_difficulty == $sl->idfyxt_skill_list ) ? ' selected="selected">' : '>' ).$sl->fyxt_skill_name.'</option>'; 
 			}
 ?>			
 					  </select>
@@ -609,7 +602,7 @@ class Fyxt_Gm_Tools_Encounters {
 						<div class="fyxt-gm-tools-form-label"><span title="What is the second Skill PCs can us this round?">Difficulty</span> <br />
 						<select name="slct-round-difficulty" id="slct-round-difficulty" title="Change the Difficulty of this Round" required>
 <?php 
-						foreach ($tt_round_difficulty as $td){
+						foreach ( $tt_round_difficulty as $td ){
 							echo '<option value="'.$td->dice_modifier.'" >'.$td->difficulty_name.'</option>'; 
 						}
 ?>
@@ -656,7 +649,7 @@ class Fyxt_Gm_Tools_Encounters {
 					'max' => 500,
 					'existing_data' => $encounter_data[0]->enc_rewards
 				);
-				echo Fyxt_Gm_Tools_Public::fyxt_form_text_area($settings_array);
+				echo Fyxt_Gm_Tools_Public::fyxt_form_text_area( $settings_array );
 ?>				
 			
 				<input type="hidden" name="hdn_encounter_id" value="<?php echo $encounter_id ?>">	
@@ -676,7 +669,7 @@ Commented out ATM.
 			<?php // echo do_shortcode('[enccalc]'); ?>	
 
 			<?php
-				if ( true == $debug){ //show printed debug information
+				if ( true == $debug){ //show printed debug information //remove after testing
 			?>
 					<h2>Debug Info</h2>
 					<p>$current_user->ID = <?php print_r($current_user->ID); ?>		
@@ -748,12 +741,8 @@ Commented out ATM.
 				
 				});
 			});
-
-		
 	});
 </script>						
-										
-										
 
 			<?php
 				} //end debugging
@@ -770,13 +759,6 @@ Commented out ATM.
 		
 	}
 	
-	
 }
-
-
-
-
-
-
 
 ?>
