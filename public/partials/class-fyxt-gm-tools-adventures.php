@@ -2,8 +2,8 @@
 
 /**
  * The public-facing functionality of the plugin. 
- 	This holds the functions to create Adventure Generator, Search, etc. 
-	All functions that are ADVENTURE specific go here.
+ * This holds the functions to create Adventure Generator, Search, etc. 
+ * All functions that are ADVENTURE specific go here.
  *
  * @link       http://www.imageinnovationsllc.com/
  * @since      1.0.0
@@ -111,7 +111,7 @@ class Fyxt_Gm_Tools_Adventures {
 	*/
 
 	//gets the users list of custom adventures that are NOT contributed
-	public function fyxt_get_users_adventures ($fyxt_account_id){
+	public function fyxt_get_users_adventures ( $fyxt_account_id ){
 		global $wpdb;
 		$sql="
 		SELECT
@@ -135,7 +135,7 @@ class Fyxt_Gm_Tools_Adventures {
 		  fyxt_adventures.verified = $fyxt_account_id
 		ORDER BY
 		  fyxt_adventures.updated DESC";
-		$result= $wpdb->get_results("$sql");
+		$result= $wpdb->get_results( "$sql" );
 		return $result;
 	}
 	
