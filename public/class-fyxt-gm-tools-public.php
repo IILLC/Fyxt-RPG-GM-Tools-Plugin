@@ -74,8 +74,7 @@ class Fyxt_Gm_Tools_Public {
 		 */
 
 		wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/fyxt-gm-tools-public.css', array(), $this->version, 'all' );
-		//wp_enqueue_style( 'https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css', array(), $this->version, 'all' );
-
+	
 	}
 
 	/**
@@ -97,15 +96,8 @@ class Fyxt_Gm_Tools_Public {
 		 * class.
 		 */
 		
-		//tested functionality for sortable on TT rounds. Not working well. May use these features later. 
-		//wp_enqueue_script( 'jquery-ui-sortable' );
-		//wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/jquery.ui.touch-punch.min.js', array( 'jquery' ), $this->version, false );
-		
 		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/fyxt-gm-tools-public.js', array( 'jquery' ), $this->version, false );
 		
-		//wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/fyxt-gm-tools-encounters.js', array( 'jquery' ), $this->version, false );
-		//wp_enqueue_script( 'https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js', array( 'jquery' ), $this->version, false );
-
 	}
 	
 	
@@ -116,7 +108,7 @@ class Fyxt_Gm_Tools_Public {
 
 
 	//function to see if debugging is enabled on the website
-	function debug($fyxt_account_id) {
+	function debug( $fyxt_account_id ) {
 		global $wpdb;
 		$debugSQL = "
 		SELECT
@@ -125,9 +117,9 @@ class Fyxt_Gm_Tools_Public {
 		  fyxt_website_options
 		WHERE
 		  fyxt_website_options.option_name = 'debug'";
-		$debugResults = $wpdb->get_var($debugSQL);
+		$debugResults = $wpdb->get_var( $debugSQL );
 
-		if ($debugResults == 1) {
+		if ( $debugResults == 1 ) {
 			//check to see if user is DEBUGGER so that can see debugging info.
 			$debuggerSQL = "
 			SELECT
@@ -137,8 +129,8 @@ class Fyxt_Gm_Tools_Public {
 			WHERE
 			  fyxt_user_account_data.fyxt_user_account_id = $fyxt_account_id And
 			  fyxt_user_account_data.fyxt_user_account_option = 18";
-			$debuggerResult = $wpdb->get_var($debuggerSQL);
-			if ($debuggerResult == 1 ) {
+			$debuggerResult = $wpdb->get_var( $debuggerSQL );
+			if ( $debuggerResult == 1 ) {
 				$debug = true;
 			}
 			else {
@@ -149,11 +141,11 @@ class Fyxt_Gm_Tools_Public {
 	}
 	
 	/////// function to check if user is a supermoderator
-	public function fyxt_check_if_super_moderator($fyxt_account_id = 0) {
+	public function fyxt_check_if_super_moderator( $fyxt_account_id = 0 ) {
 		global $wpdb;
 		$superModSQL = "
 		SELECT
-		  Count(fyxt_user_account_data.idfyxt_user_account_data)
+		  Count( fyxt_user_account_data.idfyxt_user_account_data )
 		FROM
 		  fyxt_user_account_data
 		WHERE
@@ -164,7 +156,7 @@ class Fyxt_Gm_Tools_Public {
 		  fyxt_user_account_data.fyxt_user_account_id,
 		  fyxt_user_account_data.fyxt_user_account_option,
 		  fyxt_user_account_data.fyxt_user_account_option_value";
-		$superModResults = $wpdb->get_var($superModSQL);
+		$superModResults = $wpdb->get_var( $superModSQL );
 		return $superModResults;
 	}
 
@@ -193,12 +185,13 @@ class Fyxt_Gm_Tools_Public {
 		<div class="alert alert-warning" role="alert">
 			<h3>Oops! You must be logged in to FyxtRPG.com to use this page.</h3>
 		</div>
+
 		<?php wp_login_form(); ?>
+
 		<div class="alert alert-warning" role="alert">
 			<h3>If you don't have an account, no problem! Click the button below to sign up for a new Free Fyxt RPG account.</h3>
 		</div>
 		
-
 		<button type="button" class="btn-dark btn-lg btn-block">
 			<a href="/fyxt-rpg-account/fyxt-rpg-membership-checkout/?level=1" title="Sign up for Fyxt RPG for Free!"><strong>Sign up for Free!</strong></a>
 		</button>
@@ -206,21 +199,16 @@ class Fyxt_Gm_Tools_Public {
 	<?php
 		return ob_get_clean();
 	}
-	
 
-	
-	
-
-	
 	
 	//Function to retrieve how many of any custom content an account can have
-	function fyxt_AccountOptLimit ($fyxtAccountID, $opID) {
-		if ((!empty($fyxtAccountID)) && (!empty($opID))){
+	function fyxt_AccountOptLimit ( $fyxtAccountID, $opID ) {
+		if ( ( !empty( $fyxtAccountID ) ) && ( !empty( $opID ) ) ){
 			global $wpdb;
-			$subInfo = pmpro_getMembershipLevelForUser($fyxtAccountID);
+			$subInfo = pmpro_getMembershipLevelForUser( $fyxtAccountID );
 			$subLevel = $subInfo->id;
 
-			if ($subLevel < 1){
+			if ( $subLevel < 1 ){
 				$subLevel = 0;
 			}
 
@@ -230,12 +218,12 @@ class Fyxt_Gm_Tools_Public {
 			  fyxt_user_account_limits_list
 			WHERE
 			  fyxt_user_account_limits_list.idfyxt_account_options_list = $opID";
-			$option_name = $wpdb->get_var($option_name_sql);
+			$option_name = $wpdb->get_var( $option_name_sql );
 
 			//this gets the default limit for the account
 			$getLimitSQL = "
 			Select
-			  Sum(fyxt_user_account_defaults.fyxt_user_account_value)
+			  Sum( fyxt_user_account_defaults.fyxt_user_account_value )
 			From
 			  fyxt_user_account_limits_list Inner Join
 			  fyxt_user_account_defaults
@@ -245,40 +233,40 @@ class Fyxt_Gm_Tools_Public {
 			  fyxt_user_account_defaults.fyxt_user_account_sub_level = $subLevel
 			  And
 			  fyxt_user_account_defaults.idfyxt_account_options_list = $opID" ; 
-			$getDefaultCount = $wpdb->get_var($getLimitSQL);
+			$getDefaultCount = $wpdb->get_var( $getLimitSQL );
 
 			//this gets the amount that has been bought
 			$accountPurchasesSQL = "
 			Select
-			  Sum(fyxt_user_account_data.fyxt_user_account_option_value)
+			  Sum( fyxt_user_account_data.fyxt_user_account_option_value )
 			From
 			  fyxt_user_account_data
 			Where
 			  fyxt_user_account_data.fyxt_user_account_id = $fyxtAccountID And
 			  fyxt_user_account_data.fyxt_user_account_option = $opID And
 			fyxt_user_account_data.fyxt_user_account_data_additionID = 1";
-			$accountPurchasesResults = $wpdb->get_var($accountPurchasesSQL);
+			$accountPurchasesResults = $wpdb->get_var( $accountPurchasesSQL );
 			
-			if (empty($accountPurchasesResults)){ $accountPurchasesResults = 0; }
+			if ( empty( $accountPurchasesResults ) ){ $accountPurchasesResults = 0; }
 
-			//this gets the amount that has been gifted 
-			//THis is for Fyxt contests and prizes, things that we can give away for participation above other crap
+			//This gets the amount that has been gifted.
+			//This is for Fyxt contests and prizes, things that we can give away for participation etc.
 			$accountGiftsSQL = "
 			Select
-			  Sum(fyxt_user_account_data.fyxt_user_account_option_value)
+			  Sum( fyxt_user_account_data.fyxt_user_account_option_value )
 			From
 			  fyxt_user_account_data
 			Where
 			  fyxt_user_account_data.fyxt_user_account_id = $fyxtAccountID And
 			  fyxt_user_account_data.fyxt_user_account_option = $opID And
 			fyxt_user_account_data.fyxt_user_account_data_additionID > 1";
-			$accountGiftResults = $wpdb->get_var($accountGiftsSQL);
+			$accountGiftResults = $wpdb->get_var( $accountGiftsSQL );
 			
-			if (empty($accountGiftResults)){ $accountGiftResults = 0; } //sets to 0 for display
+			if ( empty( $accountGiftResults ) ){ $accountGiftResults = 0; } //sets to 0 for display
 
 			//account earned bonus for accepted Fyxt Contributions
-			$earnedOptionIDs = array(1,9,12,16,30,45,46,47); //1 PC, 9 NPC, 12 ITEMS, 16 POWERS, 30 Friends, 45 Campaign,46 Adventure,47 Encounter
-			if (in_array($opID,$earnedOptionIDs)) { //this sets so this query only runs if additional can be earned
+			$earnedOptionIDs = array( 1,9,12,16,30,45,46,47 ); //1 PC, 9 NPC, 12 ITEMS, 16 POWERS, 30 Friends, 45 Campaign,46 Adventure,47 Encounter
+			if ( in_array( $opID,$earnedOptionIDs ) ) { //this sets so this query only runs if additional can be earned
 				$contNumbToGetPerSQL = "
 				Select
 				  fyxt_user_account_earned_bonus.fyxt_user_account_earned_bonus_value
@@ -286,16 +274,16 @@ class Fyxt_Gm_Tools_Public {
 				  fyxt_user_account_earned_bonus
 				Where
 				  fyxt_user_account_earned_bonus.fyxt_user_account_earned_bonus_optionID = $opID";
-				$contNumbToGetPerResults = $wpdb->get_var($contNumbToGetPerSQL);
+				$contNumbToGetPerResults = $wpdb->get_var( $contNumbToGetPerSQL );
 				$optCanEarnMore = 'Yes';
 
 				//need a switch to look in different tables depending on option PC/NPC is smame, powers, items
-				if ($opID == 1) { //PC
+				if ( $opID == 1 ) { //PC
 					//contributed characters
 					$userPCContSQL = "
 					Select
-					  Count(fyxt_characters.idfyxt_character) As pcs,
-					  Sum(fyxt_character_cards.fyxt_cc_char_level) As pc_lvls
+					  Count( fyxt_characters.idfyxt_character ) As pcs,
+					  Sum( fyxt_character_cards.fyxt_cc_char_level ) As pc_lvls
 					From
 					  fyxt_characters Inner Join
 					  fyxt_character_cards On fyxt_character_cards.fyxt_cc_charID =
@@ -307,15 +295,15 @@ class Fyxt_Gm_Tools_Public {
 					  fyxt_characters.wp_userid = 0 And
 					  fyxt_characters.fyxt_pc = 1 And
 					  fyxt_characters.fyxt_creator_id = $fyxtAccountID";
-					$userPCContResults = $wpdb->get_row($userPCContSQL);
+					$userPCContResults = $wpdb->get_row( $userPCContSQL );
 					$pcNum = $userPCContResults->pcs;
 					$pcLevels = $userPCContResults->pc_lvls;
-					$earned = floor($userPCContResults->pc_lvls/$contNumbToGetPerResults);
+					$earned = floor( $userPCContResults->pc_lvls/$contNumbToGetPerResults );
 
 					//current custom characters
 					$user_custom_pc_sql = "
 					SELECT
-					  Count(fyxt_characters.idfyxt_character) AS pcs
+					  Count( fyxt_characters.idfyxt_character ) AS pcs
 					FROM
 					  fyxt_characters
 					WHERE
@@ -323,15 +311,15 @@ class Fyxt_Gm_Tools_Public {
 					  fyxt_characters.verified = 0 AND
 					  fyxt_characters.wp_userid = $fyxtAccountID AND
 					  fyxt_characters.fyxt_pc = 1 ";
-					$user_custom_pc_results = $wpdb->get_var($user_custom_pc_sql);
+					$user_custom_pc_results = $wpdb->get_var( $user_custom_pc_sql );
 					$custom_content_amount = $user_custom_pc_results;
 				}
-				elseif ($opID == 9) { //NPC
+				elseif ( $opID == 9 ) { //NPC
 					//checks for NPCs that have been contributed
 					$userNPCContSQL = "
 					Select
-					  Count(fyxt_characters.idfyxt_character) As npcs,
-					  Sum(fyxt_character_cards.fyxt_cc_char_level) As npc_lvls
+					  Count( fyxt_characters.idfyxt_character ) As npcs,
+					  Sum( fyxt_character_cards.fyxt_cc_char_level ) As npc_lvls
 					From
 					  fyxt_characters Inner Join
 					  fyxt_character_cards On fyxt_character_cards.fyxt_cc_charID =
@@ -343,15 +331,15 @@ class Fyxt_Gm_Tools_Public {
 					  fyxt_characters.wp_userid = 0 And
 					  fyxt_characters.fyxt_pc = 0 And
 					  fyxt_characters.fyxt_creator_id = $fyxtAccountID";
-					$userNPCContResults = $wpdb->get_row($userNPCContSQL);
+					$userNPCContResults = $wpdb->get_row( $userNPCContSQL );
 					$npcNum = $userNPCContResults->npcs;
 					$npcLevels = $userNPCContResults->npc_lvls;
-					$earned = floor($userNPCContResults->npc_lvls/$contNumbToGetPerResults);
+					$earned = floor( $userNPCContResults->npc_lvls/$contNumbToGetPerResults );
 
 					//checks for current custom NPCs 
 					$user_custom_npc_sql = "
 					SELECT
-					  Count(fyxt_characters.idfyxt_character) AS npcs
+					  Count( fyxt_characters.idfyxt_character ) AS npcs
 					FROM
 					  fyxt_characters
 					WHERE
@@ -359,13 +347,13 @@ class Fyxt_Gm_Tools_Public {
 					  fyxt_characters.verified = 0 AND
 					  fyxt_characters.wp_userid = $fyxtAccountID AND
 					  fyxt_characters.fyxt_pc = 0";
-					$user_custom_npc_results = $wpdb->get_var($user_custom_npc_sql);
+					$user_custom_npc_results = $wpdb->get_var( $user_custom_npc_sql );
 					$custom_content_amount = $user_custom_npc_results;
 				}
-				elseif ($opID == 12) { //Items
+				elseif ( $opID == 12 ) { //Items
 					$userItemContSQL = "
 					Select
-					  Count(fyxt_items.idfyxt_items)
+					  Count( fyxt_items.idfyxt_items )
 					From
 					  fyxt_items
 					Where
@@ -373,19 +361,19 @@ class Fyxt_Gm_Tools_Public {
 					  fyxt_items.verified = 1 And
 					  fyxt_items.creator_id = 0 And
 					  fyxt_items.fyxt_items_sur_id = $fyxtAccountID";
-					$contItems = $wpdb->get_var($userItemContSQL);
+					$contItems = $wpdb->get_var( $userItemContSQL );
 
 					$custom_content_amount = $contItems; 
 
-					if (($contItems > 0) && ($contNumbToGetPerResults > 0)) {
-						$earned = floor($contItems/$contNumbToGetPerResults);
+					if ( ( $contItems > 0 ) && ( $contNumbToGetPerResults > 0 ) ) {
+						$earned = floor( $contItems/$contNumbToGetPerResults );
 					}
 				}
-				elseif ($opID == 16) { //POWER
+				elseif ( $opID == 16 ) { //POWER
 					//checks for contributed Powers
 					$userPowerContSQL = "
 					Select
-					  Count(fyxt_powers.idpowers)
+					  Count( fyxt_powers.idpowers )
 					From
 					  fyxt_powers
 					Where
@@ -400,48 +388,48 @@ class Fyxt_Gm_Tools_Public {
 					  fyxt_powers.wp_userid,
 					  fyxt_powers.creator_user_id,
 					  fyxt_powers.fyxt_power_public";
-					$contPowers = $wpdb->get_var($userPowerContSQL);
-					if (($contPowers > 0) && ($contNumbToGetPerResults > 0)) {
-						$earned = floor($contPowers/$contNumbToGetPerResults);
+					$contPowers = $wpdb->get_var( $userPowerContSQL );
+					if ( ( $contPowers > 0 ) && ( $contNumbToGetPerResults > 0 ) ) {
+						$earned = floor( $contPowers/$contNumbToGetPerResults );
 					}
 
 					//checks for current custom Powers
 					$user_custom_power_sql = "
 					SELECT
-					  Count(fyxt_powers.idpowers)
+					  Count( fyxt_powers.idpowers )
 					FROM
 					  fyxt_powers
 					WHERE
 					  fyxt_powers.web_include = 0 AND
 					  fyxt_powers.verified = 0 AND
 					  fyxt_powers.wp_userid = $fyxtAccountID";
-					$user_custom_power_result = $wpdb->get_var($user_custom_power_sql);
+					$user_custom_power_result = $wpdb->get_var( $user_custom_power_sql );
 
 					$custom_content_amount = $user_custom_power_result;
 				}
-				elseif ($opID == 30) { //friends
+				elseif ( $opID == 30 ) { //friends
 					$userFriendSQL = "
 					Select
-					  Count(fyxt_friend_activity.fyxt_friend_responded)
+					  Count( fyxt_friend_activity.fyxt_friend_responded )
 					From
 					  fyxt_friend_activity
 					Where
-					  (fyxt_friend_activity.fyxt_friend_recipient = $fyxtAccountID) Or
-					  (fyxt_friend_activity.fyxt_friend_requesting = $fyxtAccountID)";
-					$userFriendResults = $wpdb->get_var($userFriendSQL);
+					  ( fyxt_friend_activity.fyxt_friend_recipient = $fyxtAccountID ) Or
+					  ( fyxt_friend_activity.fyxt_friend_requesting = $fyxtAccountID )";
+					$userFriendResults = $wpdb->get_var( $userFriendSQL );
 
 					$custom_content_amount = $userFriendResults;
 
-					if (($userFriendResults > 0) && ($contNumbToGetPerResults > 0)) {
-						$earned = floor($userFriendResults/$contNumbToGetPerResults);
+					if ( ( $userFriendResults > 0 ) && ( $contNumbToGetPerResults > 0 ) ) {
+						$earned = floor( $userFriendResults/$contNumbToGetPerResults );
 					}
 				}
 				///////// adding GM tools here //////////// campaigns = 45, Adventures = 46, Encounters = 47
 				//checks for contributed Campaigns
-				elseif ($opID == 45) { //campaign
+				elseif ( $opID == 45 ) { //campaign
 					$user_contributed_campaign_sql = "
 					SELECT
-					  Count(fyxt_campaigns.idfyxt_campaigns) AS Count_idfyxt_campaigns
+					  Count( fyxt_campaigns.idfyxt_campaigns ) AS Count_idfyxt_campaigns
 					FROM
 					  fyxt_campaigns
 					WHERE
@@ -450,30 +438,30 @@ class Fyxt_Gm_Tools_Public {
 					  fyxt_campaigns.web_include = 1 AND
 					  fyxt_campaigns.verified = 1 AND
 					  fyxt_campaigns.creator_user_id = $fyxtAccountID";
-					$contributed_custom_campaigns = $wpdb->get_var($user_contributed_campaign_sql);
-					if (($contributed_custom_campaigns > 0) && ($contNumbToGetPerResults > 0)) {
-						$earned = floor($contributed_custom_campaigns/$contNumbToGetPerResults);
+					$contributed_custom_campaigns = $wpdb->get_var( $user_contributed_campaign_sql );
+					if ( ( $contributed_custom_campaigns > 0 ) && ( $contNumbToGetPerResults > 0 ) ) {
+						$earned = floor( $contributed_custom_campaigns/$contNumbToGetPerResults );
 					}
 
 					//checks for current custom Powers
 					$user_custom_campaign_sql = "
 					SELECT
-					  Count(fyxt_campaigns.idfyxt_campaigns) AS Count_idfyxt_campaigns
+					  Count( fyxt_campaigns.idfyxt_campaigns ) AS Count_idfyxt_campaigns
 					FROM
 					  fyxt_campaigns
 					WHERE
 					  fyxt_campaigns.owner_id = $fyxtAccountID AND
 					  fyxt_campaigns.web_include = 0 AND
 					  fyxt_campaigns.verified = 0";
-					$user_custom_campaign_result = $wpdb->get_var($user_custom_campaign_sql);
+					$user_custom_campaign_result = $wpdb->get_var( $user_custom_campaign_sql );
 
 					$custom_content_amount = $user_custom_campaign_result;
 			}
 			//checks for contributed Adventures
-			elseif ($opID == 46) { //Adventure
+			elseif ( $opID == 46 ) { //Adventure
 					$user_contributed_adventures_sql = "
 					SELECT
-					  Count(fyxt_adventures.idfyxt_adventure) AS Count_idfyxt_adventure
+					  Count( fyxt_adventures.idfyxt_adventure ) AS Count_idfyxt_adventure
 					FROM
 					  fyxt_adventures
 					WHERE
@@ -482,30 +470,30 @@ class Fyxt_Gm_Tools_Public {
 					  fyxt_adventures.web_include = 1 AND
 					  fyxt_adventures.verified = 1 AND
 					  fyxt_adventures.creator_user_id = $fyxtAccountID";
-					$contributed_custom_adventures = $wpdb->get_var($user_contributed_adventures_sql);
-					if (($contributed_custom_adventures > 0) && ($contNumbToGetPerResults > 0)) {
-						$earned = floor($contributed_custom_adventures/$contNumbToGetPerResults);
+					$contributed_custom_adventures = $wpdb->get_var( $user_contributed_adventures_sql );
+					if ( ( $contributed_custom_adventures > 0 ) && ( $contNumbToGetPerResults > 0 ) ) {
+						$earned = floor( $contributed_custom_adventures/$contNumbToGetPerResults );
 					}
 
 					//checks for current custom adventures
 					$user_custom_adventure_sql = "
 					SELECT
-					  Count(fyxt_adventures.idfyxt_adventure) AS Count_idfyxt_adventure
+					  Count( fyxt_adventures.idfyxt_adventure ) AS Count_idfyxt_adventure
 					FROM
 					  fyxt_adventures
 					WHERE
 					  fyxt_adventures.owner_id = $fyxtAccountID AND
 					  fyxt_adventures.web_include = 0 AND
 					  fyxt_adventures.verified = 0";
-					$user_custom_adventures_result = $wpdb->get_var($user_custom_adventure_sql);
+					$user_custom_adventures_result = $wpdb->get_var( $user_custom_adventure_sql );
 
 					$custom_content_amount = $user_custom_adventures_result;
 			}
 			//checks for contributed Encounters
-			elseif ($opID == 47) { //Encoutners
+			elseif ( $opID == 47 ) { //Encoutners
 					$user_contributed_encounters_sql = "
 					SELECT
-					  Count(fyxt_encounters.idfyxt_encounter) AS Count_idfyxt_encounter
+					  Count( fyxt_encounters.idfyxt_encounter ) AS Count_idfyxt_encounter
 					FROM
 					  fyxt_encounters
 					WHERE
@@ -514,22 +502,22 @@ class Fyxt_Gm_Tools_Public {
 					  fyxt_encounters.web_include = 1 AND
 					  fyxt_encounters.verified = 1 AND
 					  fyxt_encounters.enc_creator_id = $fyxtAccountID";
-					$contributed_custom_encounters = $wpdb->get_var($user_contributed_encounters_sql);
-					if (($contributed_custom_encounters > 0) && ($contNumbToGetPerResults > 0)) {
-						$earned = floor($contributed_custom_encounters/$contNumbToGetPerResults);
+					$contributed_custom_encounters = $wpdb->get_var( $user_contributed_encounters_sql );
+					if ( ( $contributed_custom_encounters > 0 ) && ( $contNumbToGetPerResults > 0 ) ) {
+						$earned = floor( $contributed_custom_encounters/$contNumbToGetPerResults );
 					}
 
 					//checks for current custom adventures
 					$user_custom_encounters_sql = "
 					SELECT
-					  Count(fyxt_encounters.idfyxt_encounter) AS Count_idfyxt_encounter
+					  Count( fyxt_encounters.idfyxt_encounter ) AS Count_idfyxt_encounter
 					FROM
 					  fyxt_encounters
 					WHERE
 					  fyxt_encounters.enc_owner_id = $fyxtAccountID AND
 					  fyxt_encounters.web_include = 0 AND
 					  fyxt_encounters.verified = 0";
-					$user_custom_adventures_result = $wpdb->get_var($user_custom_encounters_sql);
+					$user_custom_adventures_result = $wpdb->get_var( $user_custom_encounters_sql );
 
 					//debug test
 					$i_fired = "Look I fired for 47";
@@ -541,8 +529,8 @@ class Fyxt_Gm_Tools_Public {
 				}
 			}
 			
-			if (empty($custom_content_amount)){ $custom_content_amount = 0; } //sets to 0 for display
-			if (empty($earned)){ $earned = 0; } //sets to 0 for display
+			if ( empty( $custom_content_amount ) ){ $custom_content_amount = 0; } //sets to 0 for display
+			if ( empty( $earned ) ){ $earned = 0; } //sets to 0 for display
 			
 			$actTotal = $getDefaultCount + $accountPurchasesResults + $accountGiftResults + $earned;
 
@@ -575,7 +563,7 @@ class Fyxt_Gm_Tools_Public {
 	} //end funciton for custom content cound and data
 	
 	//function to display alert message with Bootstrap alerts
-	public function fyxt_bootstrap_alert ($type, $heading, $message, $class = ""){
+	public function fyxt_bootstrap_alert ( $type, $heading, $message, $class = "" ){
 		ob_start();
 ?>
 			<div class="alert alert-<?php echo $type ?> <?php echo $class; ?>"><button class="close" type="button" data-dismiss="alert">×</button>
@@ -587,8 +575,8 @@ class Fyxt_Gm_Tools_Public {
 	}
 	
 	//function to display text area entry field and validation
-	public function fyxt_form_text_area($settings_array){
-		extract($settings_array);
+	public function fyxt_form_text_area( $settings_array ){
+		extract( $settings_array );
 
 		ob_start();
 ?>		
@@ -598,9 +586,9 @@ class Fyxt_Gm_Tools_Public {
 			  	<div class="fyxt-gm-tools-help-text">
 					<span id="counter_<?php echo $id ?>">Characters left: <?php echo $max ?></span>
 					<script type="text/javascript">
-						jQuery('#<?php echo $id ?>').keyup(function () {
-							var left = <?php echo $max ?> - jQuery(this).val().length;
-							jQuery('#counter_<?php echo $id ?>').text('Characters left: ' + left);
+						jQuery( '#<?php echo $id ?>' ).keyup( function() {
+							var left = <?php echo $max ?> - jQuery( this ).val().length;
+							jQuery( '#counter_<?php echo $id ?>' ).text('Characters left: ' + left);
 						});
 					</script>
 				</div>
