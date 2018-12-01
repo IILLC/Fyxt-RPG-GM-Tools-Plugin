@@ -15,15 +15,16 @@
 
 //code to create and display account numbers of type of content
 //see `fyxt_wp_db_fatcow`.`fyxt_user_account_limits_list` table for list of account limits for content_type_id
-function fyxt_create_account_content_display ($fyxt_account_id, $content_type_id){
-	$subscription_info = pmpro_getMembershipLevelForUser($fyxtAccountID);
-	//need to collect content information limits, how many
-	$content_info = Fyxt_Gm_Tools_Public::fyxt_AccountOptLimit ($fyxt_account_id, $content_type_id); //account ID, Option ID // a function to return information about content.
+function fyxt_create_account_content_display ( $fyxt_account_id, $content_type_id ){
+	$subscription_info = pmpro_getMembershipLevelForUser( $fyxtAccountID );
 	
-	$debug = debug($fyxt_account_id);
-	if (true == $debug){
-		print_r('$content_info= ' );
-		print_r($content_info );
+	//need to collect content information limits, how many
+	$content_info = Fyxt_Gm_Tools_Public::fyxt_AccountOptLimit ( $fyxt_account_id, $content_type_id ); //account ID, Option ID // a function to return information about content.
+	
+	$debug = debug( $fyxt_account_id );
+	if ( true == $debug ){
+		print_r( '$content_info= ' );
+		print_r( $content_info );
 	}
 	
 	ob_start();
@@ -51,16 +52,13 @@ function fyxt_create_account_content_display ($fyxt_account_id, $content_type_id
 	return ob_get_clean();
 }
 
-
-
 //////////////////// shortcode registering to be able to display "widgets" inside standard wordpress pages ///////////////////
 
-add_shortcode( 'fyxt_display_encounter_creator', 'fyxt_encounter_builder_shortcode');
+add_shortcode( 'fyxt_display_encounter_creator', 'fyxt_encounter_builder_shortcode' );
 
 function fyxt_encounter_builder_shortcode() { 
 	$short_code_enc_builder = Fyxt_GM_Tools_Encounters::fyxt_encounter_creator();
-	//$short_code_enc_builder = Fyxt_GM_Tools_Encounters::testme();
-	
+
 	return $short_code_enc_builder;
 }	
 	
