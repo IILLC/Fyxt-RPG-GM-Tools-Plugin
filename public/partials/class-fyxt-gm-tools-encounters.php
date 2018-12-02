@@ -217,7 +217,7 @@ class Fyxt_Gm_Tools_Encounters {
 			$subscriber = 0;
 		}
 		
-		if ($encounter_id > 0){
+		if ( $encounter_id > 0 ){
 			//load encounter
 			$edit_name = "Edit";
 			$button_text = "Save Changes";
@@ -230,21 +230,16 @@ class Fyxt_Gm_Tools_Encounters {
 			if ( $encounter_data[0]->enc_type == 2 ){
 				$turn_time_round_data = Fyxt_Gm_Tools_Encounters::fyxt_get_encounter_round_data( $encounter_id );
 			}
-				
 			
-			
-			//load optional NPCs
-			
-			//load optional notes
-			
-			} else {
-			//new encounter
-			$edit_name = "Enter New";
-			$button_text = "Save New Encounter";
-			$is_new_encounter = 1;
+		} else {
+		//new encounter
+		$edit_name = "Enter New";
+		$button_text = "Save New Encounter";
+		$is_new_encounter = 1;
 		}
 		
 		$tt_round_difficulty = Fyxt_Gm_Tools_Encounters::fyxt_tt_round_difficulty();
+		
 		if ( $fyxt_account_id > 0 ){
 		
 			ob_start();
@@ -330,7 +325,7 @@ class Fyxt_Gm_Tools_Encounters {
 						<select name="enc_lvl" id="enc_lvl" autocomplete="off" required>
 					  <option value="">Select...</option>
 			<?php
-					for($i = 1; $i <= 20; $i++){
+					for( $i = 1; $i <= 20; $i++ ){
 						echo '<option value="'.$i.'"'.( ( $encounter_data[0]->enc_level == $i ) ? ' selected="selected">' : '>' ).$i.'</option>'; 
 					}
 			?>
@@ -369,7 +364,7 @@ class Fyxt_Gm_Tools_Encounters {
 					'max' => 500,
 					'existing_data' => $encounter_data[0]->enc_summary
 				);
-				echo Fyxt_Gm_Tools_Public::fyxt_form_text_area($settings_array);
+				echo Fyxt_Gm_Tools_Public::fyxt_form_text_area( $settings_array );
 
 				//setup form section
 				echo Fyxt_Gm_Tools_Public::fyxt_bootstrap_alert (
@@ -387,7 +382,7 @@ class Fyxt_Gm_Tools_Encounters {
 							'wp_autoresize_on' => true,
 						 	'textarea_rows' => 10
 							);	
-				wp_editor( stripslashes($encounter_data[0]->enc_setup ), 'encounter_summary_content', $editorSettings  );
+				wp_editor( stripslashes( $encounter_data[0]->enc_setup ), 'encounter_summary_content', $editorSettings  );
 ?>
 				<div class="fyxt-gm-tools-help-text"><span id="encounter_setup_counter" name="encounter_setup_counter" title="Check character count by making a change on the Text tab.">Character Limit: 5000</span></div>
 <?php
@@ -441,7 +436,7 @@ class Fyxt_Gm_Tools_Encounters {
 			$ttRoundResults = $wpdb->get_results( "$ttRoundActionSQL" );
 ?>
 				<input type="hidden" name="hdn-enc-id" value="<?php echo $encounter_id ?>">
-				<input type="hidden" id="hdn-total-enc-rounds" value="<?php echo count($ttRoundResults) ?>">
+				<input type="hidden" id="hdn-total-enc-rounds" value="<?php echo count( $ttRoundResults ) ?>">
 				
 <?php				
 			if ( !empty( $ttRoundResults ) ) {
@@ -475,7 +470,7 @@ class Fyxt_Gm_Tools_Encounters {
 ?>
 							<li><span title="<?php echo $ra->fyxt_enc_tt_description ?>"><strong>Basic Skill Use</strong>: <?php echo $ra->fyxt_enc_tt_name ?></span> using <?php echo $ra->sk1." or ".$ra->sk2 ?></li>
 <?php 
-					if (!empty($ra->details)) { 
+					if ( !empty( $ra->details ) ) { 
 ?>
 							<li><span name="spn-details"><strong>Details</strong>: <?php echo $ra->details ?></span></li>
 <?php
@@ -488,7 +483,7 @@ class Fyxt_Gm_Tools_Encounters {
 						</ul>
 						<div id="g-btn" name="g-btn">
 <?php				
-					if ($i == 1) {
+					if ( $i == 1 ) {
 ?>
 						<button name="btn-up-arrow" style="display: none;"><i class="fas fa-arrow-up"></i></button>
 						<button name="btn-down-arrow"><i class="fas fa-arrow-down"></i></button>
@@ -529,8 +524,6 @@ class Fyxt_Gm_Tools_Encounters {
 			
 			} //closes if existing actions initial display of round actions 
 ?>
-
-					
 					
 					<div class="fyxt-gm-tools-form-label">
 								Select Existing Action <br />
@@ -561,12 +554,11 @@ class Fyxt_Gm_Tools_Encounters {
 						}
 ?>
 					  	</select>
-
 								<button name="btnAddExistingAction" id="btnAddExistingAction"><i class="fas fa-plus"></i></button>
-								
 							</div>
 					
 					<div class="fyxt-gm-tools-form-label">Or <br /> Create a New Action to use!</div>
+					
 					<div class="fyxt-gm-tools-wrapper"> <!-- New Action Form -->
 						<div class="fyxt-gm-tools-form-label">
 								<span title="What would you name this round of activity?">Name</span> <br />
@@ -608,16 +600,11 @@ class Fyxt_Gm_Tools_Encounters {
 ?>
 					  	</select>
 				  </div>
-
-				
 						<div class="fyxt-gm-tools-form-label">
 							<br />
 							<button name="btn-create-new-action"><i class="fas fa-plus"></i></button> 	
 						</div>
-						
-						
 					</div>
-					
 
 				<div id="battle_time_container" ?>
 					<div id="npc_list">
@@ -660,7 +647,6 @@ class Fyxt_Gm_Tools_Encounters {
 				<?php echo $button_text ?></button>	
 
 			</div>
-				
 			</form>
 
 
@@ -669,81 +655,21 @@ Commented out ATM.
 			<?php // echo do_shortcode('[enccalc]'); ?>	
 
 			<?php
-				if ( true == $debug){ //show printed debug information //remove after testing
+				if ( true == $debug ){ //show printed debug information //remove after testing
 			?>
 					<h2>Debug Info</h2>
-					<p>$current_user->ID = <?php print_r($current_user->ID); ?>		
-					<p>$fyxt_account_id = <?php print_r($fyxt_account_id); ?>
-					<p>$debug = <?php print_r($debug); ?>
-					<p>$subscriber = <?php print_r($isSub); ?>
-					<p>$fyxt_display_name = <?php print_r($fyxt_display_name); ?>
-					<p>$fyxt_display_name = <?php print_r($fyxt_display_name); ?>
-					<p>Fyxt_Gm_Tools_Encounters::fyxt_get_encounter_type_list() = <?php print_r(Fyxt_Gm_Tools_Encounters::fyxt_get_encounter_type_list()); ?>	
-					
-						<p>$encounter_id = <?php print_r($encounter_id); ?>
-						<p>$encounter_data = <?php print_r($encounter_data); ?>
-						<p>$encounter_data->enc_name = <?php print_r($encounter_data->enc_name); ?>
-							<p>$encounter_data['enc_name'][0] = <?php print_r($encounter_data['enc_name'][0]); ?>
-								<p>$encounter_data[0]['enc_name'] = <?php //print_r($encounter_data[0]['enc_name']); ?> WRONG!
-									<p>$encounter_data[0]->enc_name = <?php print_r($encounter_data[0]->enc_name); ?>
-
-<script type="text/javascript">
-					
-	jQuery( document ).ready(function( $ ) {
-		
-		$(function() {
-			$( "button[name=btn-remove-round]" )  
-			.click(function( event ) {
-				event.preventDefault();
-				var this_div = $( this ).parent().parent();
-				var below_div = $( this_div ).next( '[name*=tt-action-container]' );
-				var above_div = $( this_div ).prev( '[name*=tt-action-container]' );
-				
-				// need to modify if above becomes last or below becomes first
-				var below_order = $( below_div ).children( '[name=hdn-order]' ).val();
-				var total_rounds = parseInt( $( '#hdn-total-enc-rounds' ).val() , 10 );
-				var current_round_order = $( this_div ).children( '[name=hdn-order]' ).val(); //selects div containter above arrow
-				
-				//reduce total rounds by 1
-				var new_total_rounds = total_rounds - 1;
-				$( '#hdn-total-enc-rounds' ).val( new_total_rounds );
-				
-				//finally removes the div
-				$( this ).parent().parent().remove();
-				
-				//now need to reorder the rounds
-				var number_of_rounds = $( '[name*="tt-action-container"]' ).length;
-				var starting_div = 	$( '[name*="tt-action-container"]' ).first();
-				var i = 1;
-				while ( i <= number_of_rounds ){
-					//set new order
-					$( starting_div ).children( '[name=hdn-order]' ).val( i ); //increase order by 1
-					$( starting_div ).children( "dl" ).children( "dt" ).children( '[id=spn-tta-title]' ).html( i ); //increase
-					
-					//set arrows to show/hide depending on new order
-					if ( number_of_rounds === 1) {
-						$( starting_div ).children( '[name=g-btn]' ).children( '[name=btn-up-arrow]' ).hide( "slow" );
-						$( starting_div ).children( '[name=g-btn]' ).children( '[name=btn-down-arrow]' ).hide( "slow" );
-					} else if ( i === 1 ){
-						$( starting_div ).children( '[name=g-btn]' ).children( '[name=btn-up-arrow]' ).hide( "slow" );
-						$( starting_div ).children( '[name=g-btn]' ).children( '[name=btn-down-arrow]' ).show( "slow" );
-					} else if ( i === number_of_rounds ){
-						$( starting_div ).children( '[name=g-btn]' ).children( '[name=btn-up-arrow]' ).show( "slow" );
-						$( starting_div ).children( '[name=g-btn]' ).children( '[name=btn-down-arrow]' ).hide( "slow" );
-					} else {
-						$( starting_div ).children( '[name=g-btn]' ).children( '[name=btn-up-arrow]' ).show( "slow" );
-						$( starting_div ).children( '[name=g-btn]' ).children( '[name=btn-down-arrow]' ).show( "slow" );
-					}
-					
-					starting_div = $( starting_div ).next();
-					i++;
-				}
-				
-				});
-			});
-	});
-</script>						
-
+					<p>$current_user->ID = <?php print_r( $current_user->ID ); ?>		
+					<p>$fyxt_account_id = <?php print_r( $fyxt_account_id ); ?>
+					<p>$debug = <?php print_r( $debug ); ?>
+					<p>$subscriber = <?php print_r( $isSub ); ?>
+					<p>$fyxt_display_name = <?php print_r( $fyxt_display_name ); ?>
+					<p>$fyxt_display_name = <?php print_r( $fyxt_display_name ); ?>
+					<p>Fyxt_Gm_Tools_Encounters::fyxt_get_encounter_type_list() = <?php print_r( Fyxt_Gm_Tools_Encounters::fyxt_get_encounter_type_list() ); ?>	
+					<p>$encounter_id = <?php print_r( $encounter_id ); ?>
+					<p>$encounter_data = <?php print_r( $encounter_data ); ?>
+					<p>$encounter_data->enc_name = <?php print_r( $encounter_data->enc_name ); ?>
+					<p>$encounter_data['enc_name'][0] = <?php print_r( $encounter_data['enc_name'][0] ); ?>
+					<p>$encounter_data[0]->enc_name = <?php print_r( $encounter_data[0]->enc_name ); ?>
 			<?php
 				} //end debugging
 			?>
